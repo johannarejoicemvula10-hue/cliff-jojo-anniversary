@@ -1,247 +1,296 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Cliff & Jojo’s 4th Year Anniversary</title>
 
-<title>Cliff & Jojo’s 4th Year Anniversary</title>
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 
-<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+  <style>
+    body{
+      margin:0;
+      background:#0f0f12;
+      font-family:'Poppins',sans-serif;
+      color:white;
+      overflow-x:hidden;
+      text-align:center;
+    }
 
-<style>
-body{
-margin:0;
-background:#0f0f12;
-font-family:'Poppins',sans-serif;
-color:white;
-overflow-x:hidden;
-text-align:center;
-}
+    h1{
+      font-family:'Great Vibes',cursive;
+      font-size:55px;
+      color:#ffd6e7;
+      margin:40px 16px 10px;
+      line-height:1.05;
+    }
 
-h1{
-font-family:'Great Vibes',cursive;
-font-size:55px;
-color:#ffd6e7;
-margin-top:40px;
-}
+    h2{
+      font-size:28px;
+      margin:10px 16px;
+    }
 
-button{
-padding:12px 24px;
-border-radius:30px;
-border:none;
-background:#ffd6e7;
-font-weight:bold;
-cursor:pointer;
-margin:10px;
-}
+    p{
+      margin:10px 16px;
+      opacity:0.95;
+    }
 
-.gallery{
-display:grid;
-grid-template-columns:repeat(2,1fr);
-gap:10px;
-padding:15px;
-}
+    button{
+      padding:12px 24px;
+      border-radius:30px;
+      border:none;
+      background:#ffd6e7;
+      font-weight:600;
+      cursor:pointer;
+      margin:10px;
+    }
 
-.gallery img, .gallery video{
-width:100%;
-border-radius:15px;
-}
+    .gallery{
+      display:grid;
+      grid-template-columns:repeat(2,1fr);
+      gap:10px;
+      padding:15px;
+      max-width:900px;
+      margin:0 auto;
+    }
 
-#intro{
-position:fixed;
-inset:0;
-background:#0f0f12;
-display:flex;
-flex-direction:column;
-justify-content:center;
-align-items:center;
-z-index:999;
-}
+    .gallery img, .gallery video{
+      width:100%;
+      border-radius:15px;
+      background:#1a1a1f;
+    }
 
-.fade{
-animation:fadein 1s forwards;
-}
+    #intro{
+      position:fixed;
+      inset:0;
+      background:#0f0f12;
+      display:flex;
+      flex-direction:column;
+      justify-content:center;
+      align-items:center;
+      z-index:999;
+      padding:24px;
+    }
 
-@keyframes fadein{
-from{opacity:0;}
-to{opacity:1;}
-}
+    #pass{
+      padding:12px 14px;
+      border-radius:20px;
+      border:none;
+      width:min(260px, 80vw);
+      text-align:center;
+      font-size:16px;
+      outline:none;
+      margin-top:8px;
+    }
 
-.heart{
-position:fixed;
-top:-20px;
-font-size:18px;
-animation:fall 8s linear;
-}
+    .heart{
+      position:fixed;
+      top:-20px;
+      font-size:18px;
+      animation:fall 8s linear;
+      pointer-events:none;
+      opacity:0.9;
+    }
 
-@keyframes fall{
-to{transform:translateY(110vh) rotate(360deg);}
-}
-</style>
-#music-bubble {
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-  background: #e6a8b8;
-  width: 60px;
-  height: 60px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 24px;
-  cursor: pointer;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.3);
-  z-index: 999;
-  transition: transform 0.2s ease;
-}
+    @keyframes fall{
+      to{transform:translateY(110vh) rotate(360deg);}
+    }
 
-#music-bubble:hover {
-  transform: scale(1.1);
-}
+    /* Floating music bubble */
+    #music-bubble {
+      position: fixed;
+      bottom: 18px;
+      right: 18px;
+      background: #e6a8b8;
+      width: 58px;
+      height: 58px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+      cursor: pointer;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.35);
+      z-index: 1000;
+      transition: transform 0.15s ease;
+      user-select:none;
+    }
+    #music-bubble:active { transform: scale(0.96); }
+
+    /* Make it prettier on very small screens */
+    @media (max-width: 360px){
+      h1{ font-size:46px; }
+    }
+  </style>
 </head>
 
 <body>
 
-<div id="intro">
-<h1>Cliff & Jojo’s</h1>
-<p>4th Year Anniversary 🤍</p>
-<input id="pass" placeholder="Enter 0303" style="padding:10px;border-radius:20px;border:none;">
-<br>
-<button onclick="start()">Start Our Story</button>
-<p id="wrong" style="color:pink;display:none;">Wrong code 🤍</p>
-</div>
+  <!-- Intro lock screen -->
+  <div id="intro">
+    <h1>Cliff & Jojo’s</h1>
+    <p style="margin-top:0;">4th Year Anniversary 🤍</p>
 
-<div id="music-bubble">🎵</div>
+    <input id="pass" placeholder="Enter 0303" inputmode="numeric" />
+    <button onclick="start()">Start Our Story</button>
 
-<audio id="bg-music" loop>
-  <source src="media/love.mp3" type="audio/mpeg">
-</audio>
+    <p id="wrong" style="color:#ffb6c9; display:none; margin-top:6px;">Wrong code 🤍</p>
+    <p style="opacity:0.7; font-size:13px; margin-top:18px;">Tip: tap 🎵 after you enter the code</p>
+  </div>
 
-<script>
-const bubble = document.getElementById("music-bubble");
-const music = document.getElementById("bg-music");
+  <!-- Floating music control -->
+  <div id="music-bubble" aria-label="Music" title="Tap for music">🎵</div>
 
-let playing = false;
+  <audio id="bg-music" loop preload="auto">
+    <source src="media/love.mp3" type="audio/mpeg">
+  </audio>
 
-bubble.addEventListener("click", () => {
-  if (!playing) {
-    music.play();
-    bubble.innerHTML = "⏸";
-    playing = true;
-  } else {
-    music.pause();
-    bubble.innerHTML = "🎵";
-    playing = false;
-  }
-});
-</script>
+  <!-- Main content -->
+  <h1>Cliff & Jojo’s 4 Years</h1>
+  <p>03 March 2022 → 03 March 2026</p>
 
-<h1>Cliff & Jojo’s 4 Years (v2)</h1>
-<p>03 March 2022 → 03 March 2026</p>
+  <button onclick="toggleReasons()">10 Reasons I Still Choose You</button>
 
-<button onclick="reveal()">10 Reasons I Still Choose You</button>
+  <div id="reasons" style="display:none; padding: 8px 12px; max-width:900px; margin:0 auto;">
+    <p>1. Your kindness makes me feel safe.</p>
+    <p>2. Your consistency is my peace.</p>
+    <p>3. You loved me through war and never left.</p>
+    <p>4. You helped me become secure.</p>
+    <p>5. You see me.</p>
+    <p>6. Your cuddles heal me.</p>
+    <p>7. Your words of affirmation melt me.</p>
+    <p>8. You are my gentle giant.</p>
+    <p>9. You make me feel beautiful as I am.</p>
+    <p>10. I would choose you in every lifetime.</p>
+  </div>
 
-<div id="reasons" style="display:none;padding:15px;">
-<p>1. Your kindness makes me feel safe.</p>
-<p>2. Your consistency is my peace.</p>
-<p>3. You loved me through war and never left.</p>
-<p>4. You helped me become secure.</p>
-<p>5. You see me.</p>
-<p>6. Your cuddles heal me.</p>
-<p>7. Your words of affirmation melt me.</p>
-<p>8. You are my gentle giant.</p>
-<p>9. You make me feel beautiful as I am.</p>
-<p>10. I would choose you in every lifetime.</p>
-</div>
+  <div class="gallery" id="gallery"></div>
 
-<div class="gallery" id="gallery"></div>
+  <div style="padding:40px 20px; max-width:900px; margin:0 auto;">
+    <h2>If I had to live this life again…</h2>
+    <p>
+      I would walk through every war, every tear, every growing pain —
+      as long as it still led me back to you.
+    </p>
+  </div>
 
-<div style="padding:40px;">
-<h2>If I had to live this life again...</h2>
-<p>I would walk through every war, every tear, every growing pain —
-as long as it still led me back to you.</p>
-</div>
+  <script>
+    // Password screen
+    function start(){
+      const code = document.getElementById("pass").value.trim();
+      if(code !== "0303"){
+        document.getElementById("wrong").style.display = "block";
+        return;
+      }
+      document.getElementById("intro").style.display = "none";
+      document.getElementById("wrong").style.display = "none";
+      hearts();
+      // Try starting music (may be blocked until user taps bubble)
+      try { document.getElementById("bg-music").play(); } catch(e) {}
+    }
 
-<script>
+    function toggleReasons(){
+      const r = document.getElementById("reasons");
+      r.style.display = (r.style.display === "none") ? "block" : "none";
+    }
 
-function start(){
-  let code=document.getElementById("pass").value;
-  if(code!=="0303"){
-    document.getElementById("wrong").style.display="block";
-    return;
-  }
-  document.getElementById("intro").style.display="none";
-  document.getElementById("music").play().catch(()=>{});
-  hearts();
-}
+    // Hearts animation
+    function hearts(){
+      setInterval(() => {
+        const heart = document.createElement("div");
+        heart.innerHTML = "🤍";
+        heart.className = "heart";
+        heart.style.left = Math.random() * 100 + "vw";
+        document.body.appendChild(heart);
+        setTimeout(() => heart.remove(), 8000);
+      }, 800);
+    }
 
-function reveal(){
-  let r=document.getElementById("reasons");
-  r.style.display=r.style.display==="none"?"block":"none";
-}
+    // Floating music bubble
+    const bubble = document.getElementById("music-bubble");
+    const music = document.getElementById("bg-music");
+    let playing = false;
 
-function hearts(){
-  setInterval(function(){
-    let heart=document.createElement("div");
-    heart.innerHTML="🤍";
-    heart.className="heart";
-    heart.style.left=Math.random()*100+"vw";
-    document.body.appendChild(heart);
-    setTimeout(()=>heart.remove(),8000);
-  },800);
-}
+    bubble.addEventListener("click", async () => {
+      try{
+        if(!playing){
+          await music.play();
+          bubble.textContent = "⏸";
+          playing = true;
+        } else {
+          music.pause();
+          bubble.textContent = "🎵";
+          playing = false;
+        }
+      } catch(e){
+        // If browser blocks it, user can try again after interacting
+        bubble.textContent = "🎵";
+        playing = false;
+        alert("Tap once more to start the music 🤍");
+      }
+    });
 
-const gallery = document.getElementById("gallery");
-gallery.innerHTML = "<p style='color:pink;padding:10px;'>Gallery is running… looking for media/photo-01.jpg</p>";
-// Load photos until one is missing
-let photoIndex = 1;
-function loadNextPhoto(){
-  const n = String(photoIndex).padStart(2,"0");
-  const src = "media/photo-" + n + ".jpg";
+    // Gallery loader: loads photo-01.. until missing; supports .jpg and .jpeg
+    const gallery = document.getElementById("gallery");
 
-  const img = document.createElement("img");
-  img.src = src;
-  img.alt = "photo-" + n;
+    function tryExtensions(base, exts){
+      return new Promise((resolve) => {
+        let k = 0;
+        const attempt = () => {
+          if(k >= exts.length) return resolve(null);
+          const src = base + exts[k++];
+          const img = new Image();
+          img.onload = () => resolve(src);
+          img.onerror = attempt;
+          img.src = src;
+        };
+        attempt();
+      });
+    }
 
-  img.onload = () => {
-  gallery.innerHTML += "<p style='color:lightgreen;padding:10px;'>Loaded: " + src + "</p>";
-  gallery.appendChild(img);
-  photoIndex++;
-  loadNextPhoto();
-};
+    async function loadPhotos(){
+      let i = 1;
+      while(true){
+        const n = String(i).padStart(2, "0");
+        const base = "media/photo-" + n;
+        const src = await tryExtensions(base, [".jpg", ".jpeg"]);
+        if(!src) break;
 
-  img.onerror = () => {
-  gallery.innerHTML += "<p style='color:orange;padding:10px;'>Missing: " + src + " (stopping here)</p>";
-};
-}
-loadNextPhoto();
+        const el = document.createElement("img");
+        el.src = src;
+        el.alt = "photo-" + n;
+        gallery.appendChild(el);
+        i++;
+      }
+    }
 
-// Load videos until one is missing
-let videoIndex = 1;
-function loadNextVideo(){
-  const n = String(videoIndex).padStart(2,"0");
-  const src = "media/video-" + n + ".mp4";
+    async function loadVideos(){
+      let i = 1;
+      while(true){
+        const n = String(i).padStart(2, "0");
+        const src = "media/video-" + n + ".mp4";
 
-  const v = document.createElement("video");
-  v.src = src;
-  v.controls = true;
+        // Probe if exists
+        const ok = await new Promise((resolve) => {
+          const v = document.createElement("video");
+          v.onloadeddata = () => resolve(true);
+          v.onerror = () => resolve(false);
+          v.src = src;
+        });
 
-  v.onloadeddata = () => {
-    gallery.appendChild(v);
-    videoIndex++;
-    loadNextVideo();
-  };
+        if(!ok) break;
 
-  v.onerror = () => {
-    // stop quietly
-  };
-}
-loadNextVideo();
+        const v = document.createElement("video");
+        v.src = src;
+        v.controls = true;
+        gallery.appendChild(v);
+        i++;
+      }
+    }
 
-
-
-</script>
+    loadPhotos();
+    loadVideos();
+  </script>
 
 </body>
 </html>
