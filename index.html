@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Cliff & Jojo’s 4th Year Anniversary</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+<style>
+body{
+margin:0;
+background:#0f0f12;
+font-family:'Poppins',sans-serif;
+color:white;
+overflow-x:hidden;
+text-align:center;
+}
+
+h1{
+font-family:'Great Vibes',cursive;
+font-size:55px;
+color:#ffd6e7;
+margin-top:40px;
+}
+
+button{
+padding:12px 24px;
+border-radius:30px;
+border:none;
+background:#ffd6e7;
+font-weight:bold;
+cursor:pointer;
+margin:10px;
+}
+
+.gallery{
+display:grid;
+grid-template-columns:repeat(2,1fr);
+gap:10px;
+padding:15px;
+}
+
+.gallery img, .gallery video{
+width:100%;
+border-radius:15px;
+}
+
+#intro{
+position:fixed;
+inset:0;
+background:#0f0f12;
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+z-index:999;
+}
+
+.fade{
+animation:fadein 1s forwards;
+}
+
+@keyframes fadein{
+from{opacity:0;}
+to{opacity:1;}
+}
+
+.heart{
+position:fixed;
+top:-20px;
+font-size:18px;
+animation:fall 8s linear;
+}
+
+@keyframes fall{
+to{transform:translateY(110vh) rotate(360deg);}
+}
+</style>
+</head>
+
+<body>
+
+<div id="intro">
+<h1>Cliff & Jojo’s</h1>
+<p>4th Year Anniversary 🤍</p>
+<input id="pass" placeholder="Enter 0303" style="padding:10px;border-radius:20px;border:none;">
+<br>
+<button onclick="start()">Start Our Story</button>
+<p id="wrong" style="color:pink;display:none;">Wrong code 🤍</p>
+</div>
+
+<audio id="music" loop>
+<source src="media/love.mp3" type="audio/mpeg">
+</audio>
+
+<h1>Cliff & Jojo’s 4 Years (v2)</h1>
+<p>03 March 2022 → 03 March 2026</p>
+
+<button onclick="reveal()">10 Reasons I Still Choose You</button>
+
+<div id="reasons" style="display:none;padding:15px;">
+<p>1. Your kindness makes me feel safe.</p>
+<p>2. Your consistency is my peace.</p>
+<p>3. You loved me through war and never left.</p>
+<p>4. You helped me become secure.</p>
+<p>5. You see me.</p>
+<p>6. Your cuddles heal me.</p>
+<p>7. Your words of affirmation melt me.</p>
+<p>8. You are my gentle giant.</p>
+<p>9. You make me feel beautiful as I am.</p>
+<p>10. I would choose you in every lifetime.</p>
+</div>
+
+<div class="gallery" id="gallery"></div>
+
+<div style="padding:40px;">
+<h2>If I had to live this life again...</h2>
+<p>I would walk through every war, every tear, every growing pain —
+as long as it still led me back to you.</p>
+</div>
+
+<script>
+
+function start(){
+  let code=document.getElementById("pass").value;
+  if(code!=="0303"){
+    document.getElementById("wrong").style.display="block";
+    return;
+  }
+  document.getElementById("intro").style.display="none";
+  document.getElementById("music").play().catch(()=>{});
+  hearts();
+}
+
+function reveal(){
+  let r=document.getElementById("reasons");
+  r.style.display=r.style.display==="none"?"block":"none";
+}
+
+function hearts(){
+  setInterval(function(){
+    let heart=document.createElement("div");
+    heart.innerHTML="🤍";
+    heart.className="heart";
+    heart.style.left=Math.random()*100+"vw";
+    document.body.appendChild(heart);
+    setTimeout(()=>heart.remove(),8000);
+  },800);
+}
+
+const gallery = document.getElementById("gallery");
+gallery.innerHTML = "<p style='color:pink;padding:10px;'>Gallery is running… looking for media/photo-01.jpg</p>";
+// Load photos until one is missing
+let photoIndex = 1;
+function loadNextPhoto(){
+  const n = String(photoIndex).padStart(2,"0");
+  const src = "media/photo-" + n + ".jpg";
+
+  const img = document.createElement("img");
+  img.src = src;
+  img.alt = "photo-" + n;
+
+  img.onload = () => {
+  gallery.innerHTML += "<p style='color:lightgreen;padding:10px;'>Loaded: " + src + "</p>";
+  gallery.appendChild(img);
+  photoIndex++;
+  loadNextPhoto();
+};
+
+  img.onerror = () => {
+  gallery.innerHTML += "<p style='color:orange;padding:10px;'>Missing: " + src + " (stopping here)</p>";
+};
+}
+loadNextPhoto();
+
+// Load videos until one is missing
+let videoIndex = 1;
+function loadNextVideo(){
+  const n = String(videoIndex).padStart(2,"0");
+  const src = "media/video-" + n + ".mp4";
+
+  const v = document.createElement("video");
+  v.src = src;
+  v.controls = true;
+
+  v.onloadeddata = () => {
+    gallery.appendChild(v);
+    videoIndex++;
+    loadNextVideo();
+  };
+
+  v.onerror = () => {
+    // stop quietly
+  };
+}
+loadNextVideo();
+
+
+
+</script>
+
+</body>
+</html>
