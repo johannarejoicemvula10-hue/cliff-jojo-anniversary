@@ -78,6 +78,27 @@ animation:fall 8s linear;
 to{transform:translateY(110vh) rotate(360deg);}
 }
 </style>
+#music-bubble {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background: #e6a8b8;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  cursor: pointer;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+  z-index: 999;
+  transition: transform 0.2s ease;
+}
+
+#music-bubble:hover {
+  transform: scale(1.1);
+}
 </head>
 
 <body>
@@ -91,9 +112,30 @@ to{transform:translateY(110vh) rotate(360deg);}
 <p id="wrong" style="color:pink;display:none;">Wrong code 🤍</p>
 </div>
 
-<audio id="music" loop>
-<source src="media/love.mp3" type="audio/mpeg">
+<div id="music-bubble">🎵</div>
+
+<audio id="bg-music" loop>
+  <source src="media/love.mp3" type="audio/mpeg">
 </audio>
+
+<script>
+const bubble = document.getElementById("music-bubble");
+const music = document.getElementById("bg-music");
+
+let playing = false;
+
+bubble.addEventListener("click", () => {
+  if (!playing) {
+    music.play();
+    bubble.innerHTML = "⏸";
+    playing = true;
+  } else {
+    music.pause();
+    bubble.innerHTML = "🎵";
+    playing = false;
+  }
+});
+</script>
 
 <h1>Cliff & Jojo’s 4 Years (v2)</h1>
 <p>03 March 2022 → 03 March 2026</p>
