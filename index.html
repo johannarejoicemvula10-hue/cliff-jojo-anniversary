@@ -228,17 +228,23 @@ function toggleLetter(){
   <script>
     // Password screen
     function start(){
-      const code = document.getElementById("pass").value.trim();
-      if(code !== "0303"){
-        document.getElementById("wrong").style.display = "block";
-        return;
-      }
-      document.getElementById("intro").style.display = "none";
-      document.getElementById("wrong").style.display = "none";
-      hearts();
-      // Try starting music (may be blocked until user taps bubble)
-      try { document.getElementById("bg-music").play(); } catch(e) {}
-    }
+      window.start = function () {
+  const input = document.getElementById("pass");
+  const code = (input?.value || "").replace(/\s+/g, "");
+  const wrong = document.getElementById("wrong");
+  const intro = document.getElementById("intro");
+
+  if (code !== "0303") {
+    if (wrong) wrong.style.display = "block";
+    return;
+  }
+
+  if (wrong) wrong.style.display = "none";
+  if (intro) intro.style.display = "none";
+
+  // Optional: start hearts if you have that function
+  if (typeof hearts === "function") hearts();
+};
 
     function toggleReasons(){
       const r = document.getElementById("reasons");
@@ -459,6 +465,7 @@ buildSlides();
 
 </body>
 </html>
+
 
 
 
