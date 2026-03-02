@@ -217,6 +217,9 @@
 </div>
 
 <script>
+  window.onerror = function (msg, src, line, col) {
+  alert("Script error: " + msg + " (line " + line + ")");
+};
 function toggleLetter(){
   const el = document.getElementById("letter");
   el.style.display = (el.style.display === "none") ? "block" : "none";
@@ -465,6 +468,7 @@ buildSlides();
 
 </body>
 </html>
+
 
 
 
