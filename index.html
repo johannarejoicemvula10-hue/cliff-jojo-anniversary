@@ -141,9 +141,7 @@
   <!-- Floating music control -->
   <div id="music-bubble" aria-label="Music" title="Tap for music">🎵</div>
 
-  <audio id="bg-music" loop preload="auto">
-    <source src="media/love.mp3" type="audio/mpeg">
-  </audio>
+  <audio id="bg-music" loop preload="auto"></audio>
 
   <!-- Main content -->
   <h1>Cliff & Jojo’s 4 Years</h1>
@@ -436,11 +434,31 @@ function toggleAuto(){
   }, 5000);
   btn.textContent = "Auto: ON";
 }
+    // Floating music bubble
+const bubble = document.getElementById("music-bubble");
+const music = document.getElementById("bg-music");
+
+music.src = "media/love.mp3";
+
+let playing = false;
+
+bubble.addEventListener("click", async () => {
+  if(!playing){
+    await music.play();
+    bubble.textContent = "⏸";
+    playing = true;
+  } else {
+    music.pause();
+    bubble.textContent = "🎵";
+    playing = false;
+  }
+});
 
 buildSlides();
   </script>
 
 </body>
 </html>
+
 
 
