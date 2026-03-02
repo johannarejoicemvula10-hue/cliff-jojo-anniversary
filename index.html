@@ -164,7 +164,17 @@
 <p>10.Because you didn’t just love me — you became the standard for every prayer I’ve ever whispered.</p>
   </div>
 
-  <div class="gallery" id="gallery"></div>
+  <div id="slideshow" style="max-width:900px;margin:0 auto;padding:15px;">
+  <div id="stage" style="border-radius:18px; overflow:hidden; background:#15151b;"></div>
+
+  <div style="display:flex;gap:10px;justify-content:center;align-items:center;margin-top:12px;flex-wrap:wrap;">
+    <button onclick="prevSlide()">← Prev</button>
+    <button onclick="toggleAuto()" id="autoBtn">Auto: OFF</button>
+    <button onclick="nextSlide()">Next →</button>
+  </div>
+
+  <p id="counter" style="opacity:0.8;margin-top:10px;"></p>
+  </div>
 
   <div style="padding:40px 20px; max-width:900px; margin:0 auto;">
     <h2>If I had to live this life again…</h2>
@@ -330,11 +340,107 @@ function toggleLetter(){
         i++;
       }
     }
+// Build a playlist of media in order: photos then videos, stopping at first missing number.
+// Supports photo-01.jpg / photo-01.jpeg and video-01.mp4 etc.
 
-    loadPhotos();
-    loadVideos();
+const stage = document.getElementById("stage");
+const counter = document.getElementById("counter");
+
+const slides = [];
+let current = 0;
+let autoTimer = null;
+
+function tryExtensions(base, exts){
+  return new Promise((resolve) => {
+    let k = 0;
+    const attempt = () => {
+      if(k >= exts.length) return resolve(null);
+      const src = base + exts[k++];
+      const img = new Image();
+      img.onload = () => resolve(src);
+      img.onerror = attempt;
+      img.src = src;
+    };
+    attempt();
+  });
+}
+
+async function buildSlides(){
+  // photos
+  let i = 1;
+  while(true){
+    const n = String(i).padStart(2,"0");
+    const src = await tryExtensions("media/photo-" + n, [".jpg",".jpeg"]);
+    if(!src) break;
+    slides.push({ type:"photo", src });
+    i++;
+  }
+
+  // videos
+  i = 1;
+  while(true){
+    const n = String(i).padStart(2,"0");
+    const src = "media/video-" + n + ".mp4";
+    const ok = await new Promise((resolve) => {
+      const v = document.createElement("video");
+      v.onloadeddata = () => resolve(true);
+      v.onerror = () => resolve(false);
+      v.src = src;
+    });
+    if(!ok) break;
+    slides.push({ type:"video", src });
+    i++;
+  }
+
+  renderSlide(0);
+}
+
+function renderSlide(index){
+  if(!slides.length){
+    stage.innerHTML = `<div style="padding:22px;opacity:0.85;">No photos/videos found. Check your media names.</div>`;
+    counter.textContent = "";
+    return;
+  }
+
+  current = (index + slides.length) % slides.length;
+  const s = slides[current];
+
+  if(s.type === "video"){
+    stage.innerHTML = `
+      <video src="${s.src}" controls playsinline style="width:100%; display:block;"></video>
+    `;
+  } else {
+    stage.innerHTML = `
+      <img src="${s.src}" alt="memory" style="width:100%; display:block;">
+    `;
+  }
+
+  counter.textContent = `Memory ${current+1} of ${slides.length}`;
+}
+
+function nextSlide(){ renderSlide(current + 1); }
+function prevSlide(){ renderSlide(current - 1); }
+
+function toggleAuto(){
+  const btn = document.getElementById("autoBtn");
+  if(autoTimer){
+    clearInterval(autoTimer);
+    autoTimer = null;
+    btn.textContent = "Auto: OFF";
+    return;
+  }
+  autoTimer = setInterval(() => {
+    // if current is video, let it sit a bit longer
+    const isVideo = slides[current]?.type === "video";
+    nextSlide();
+  }, 5000);
+  btn.textContent = "Auto: ON";
+}
+
+buildSlides();
   </script>
 
 </body>
 </html>
+
 
