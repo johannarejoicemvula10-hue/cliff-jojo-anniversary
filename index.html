@@ -281,10 +281,33 @@
 
     loadPhotos();
     loadVideos();
+    // Render editable text from content.js
+(function renderContent() {
+  const c = window.ANNIVERSARY_CONTENT;
+  if (!c) return;
+
+  // Reasons
+  const list = document.getElementById("reasonsList");
+  if (list && Array.isArray(c.reasons)) {
+    list.innerHTML = "";
+    c.reasons.forEach((text, i) => {
+      const p = document.createElement("p");
+      p.textContent = `${i + 1}. ${text}`;
+      list.appendChild(p);
+    });
+  }
+
+  // Letter
+  const letter = document.getElementById("letterBox");
+  if (letter && typeof c.letterHtml === "string") {
+    letter.innerHTML = c.letterHtml;
+  }
+})();
   </script>
 
 </body>
 </html>
+
 
 
 
